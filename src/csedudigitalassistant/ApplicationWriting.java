@@ -1244,6 +1244,34 @@ public class ApplicationWriting extends javax.swing.JFrame {
         return true;
     }
     
+    private boolean isRangeValid(String d_from, String m_from, String d_to, String m_to) {
+        String months[] = {"January", "February", "March", "April", "May",
+                           "June", "July", "August", "September", "October",
+                            "November", "December"};
+        int index1 = 0, index2 = 0;
+        for (int i = 0; i < months.length; i++) {
+            if (months[i].equals(m_from)) {
+                index1 = i;
+                break;
+            }
+        }
+        for (int i = 0; i < months.length; i++) {
+            if (months[i].equals(m_to)) {
+                index2 = i;
+                break;
+            }
+        }
+        if (index2 > index1) {
+            return true;
+        } else if (index2 < index1) {
+            return false;
+        } else {
+            int val1 = Integer.parseInt(d_from);
+            int val2 = Integer.parseInt(d_to);
+            return val1 <= val2;
+        }
+    }
+    
     private boolean checkInput(String type) {
         if (type.equals("Leave of absence")) {
             String name = name_field.getText();
@@ -1267,6 +1295,11 @@ public class ApplicationWriting extends javax.swing.JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, "Invalid roll", "Error", JOptionPane.ERROR_MESSAGE);                    
                 roll_field.requestFocus();
+                return false;
+            } else if (!isRangeValid(String.valueOf(day_from.getValue()), (String)month_from.getSelectedItem(), String.valueOf(day_to.getValue()), (String)month_to.getSelectedItem())) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Invalid date range", "Error", JOptionPane.ERROR_MESSAGE);                    
+                day_from.requestFocus();
                 return false;
             }
             return true;
@@ -1298,6 +1331,11 @@ public class ApplicationWriting extends javax.swing.JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, "Invalid roll", "Error", JOptionPane.ERROR_MESSAGE);                    
                 roll_field_make_up_incourse.requestFocus();
+                return false;
+            } else if (!isRangeValid(String.valueOf(day_from_make_up_incourse.getValue()), (String)month_from_make_up_incourse.getSelectedItem(), String.valueOf(day_to_make_up_incourse.getValue()), (String)month_to_make_up_incourse.getSelectedItem())) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Invalid date range", "Error", JOptionPane.ERROR_MESSAGE);                    
+                day_from_make_up_incourse.requestFocus();
                 return false;
             }
             return true;
